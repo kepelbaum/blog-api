@@ -1,6 +1,10 @@
 import { Router } from 'express';
+import { verifyToken } from '../modules/verifytoken.js';
+const jwt = require('jsonwebtoken');
 
 const router = Router();
+
+
 
 router.get('/', async (req, res) => {
   const users = await req.context.models.Blogger.find();
@@ -20,21 +24,62 @@ router.post('/', async (req, res) => {
   return res.send(user);
 });
 
-router.delete('/:userId', async (req, res) => {
-  const user = await req.context.models.Blogger.findByIdAndDelete(
-    req.params.userId,
-  );
+router.delete('/:userId', verifyToken, async (req, res) => {
+  // const user = await req.context.models.Blogger.findByIdAndDelete(
+  //   req.params.userId,
+  // ); 
 
-  return res.send(user);
+  // return res.send(user);
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      // res.send(Status(403));
+      res.send('You are not signed in.');
+    } else { 
+      const fullVerify = async () => {
+      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      let use = await req.context.models.Blogger.findById(req.params.userId);
+      if (acc.username === use.username && acc.password === use.password) {
+        const user = await req.context.models.Blogger.findByIdAndDelete(
+          req.params.userId,
+        );
+      
+        return res.send(user);
+    } else {
+      res.sendStatus(401);
+    }};
+    fullVerify();
+  }
+  })
 });
 
-router.put('/:userId', async (req, res) => {
-  const user = await req.context.models.Blogger.findByIdAndUpdate(
-    req.params.userId,
-    {password: req.body.password},
-  );
+router.put('/:userId', verifyToken, async (req, res) => {
+  // const user = await req.context.models.Blogger.findByIdAndUpdate(
+  //   req.params.userId,
+  //   {password: req.body.password},
+  // );
 
-  return res.send(user);
+  // return res.send(user);
+
+  jwt.verify(req.token, 'secretkey', (err, authData) => {
+    if(err) {
+      // res.send(Status(403));
+      res.send('You are not signed in.');
+    } else { 
+      const fullVerify = async () => {
+      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      let use = await req.context.models.Blogger.findById(req.params.userId);
+      if (acc.username === use.username && acc.password === use.password) {
+        const user = await req.context.models.Blogger.findByIdAndUpdate(
+          req.params.userId,
+          {password: req.body.password},
+        );
+        return res.send(user);
+    } else {
+      res.sendStatus(401);
+    }};
+    fullVerify();
+  }
+  })
 });
 
 router.get('/:userId', async (req, res) => {
