@@ -41,7 +41,7 @@ app.get('/', verifyToken, (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const acc = await models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
       if (acc) {
       res.json({
         message: 'Welcome, ' + authData.user.username + '!',
