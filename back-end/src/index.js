@@ -1,10 +1,9 @@
 import 'dotenv/config';
 import cors from 'cors';
+import express from 'express';
 import models, { connectDb } from './models';
 import routes from './routes';
 import { verifyToken } from './modules/verifytoken.js';
-
-const express = require('express');
 
 const jwt = require('jsonwebtoken');
 
