@@ -7,14 +7,18 @@ const jwt = require('jsonwebtoken');
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const messages = await req.context.models.Blogcomment.find();
+  const messages = await req.context.models.Blogcomment.find()
+  .populate("user")
+  .exec();
   return res.send(messages);
 });
 
 router.get('/:messageId', async (req, res) => {
   const message = await req.context.models.Blogcomment.findById(
     req.params.messageId,
-  );
+  )
+  .populate("user")
+  .exec();
   return res.send(message);
 });
 
@@ -35,8 +39,8 @@ router.post('/:messageId', verifyToken, async (req, res, next) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let pos = await req.context.models.Blogpost.findById(req.params.messageId);
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const pos = await req.context.models.Blogpost.findById(req.params.messageId);
       if (acc && pos.ifPublished) {
         const message = await req.context.models.Blogcomment.create({
           text: req.body.text,
@@ -68,9 +72,9 @@ router.delete('/:messageId', verifyToken, async (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let com = await req.context.models.Blogcomment.findById(req.params.messageId);
-      let pos = await req.context.models.Blogpost.findById(com.post.toString());
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const com = await req.context.models.Blogcomment.findById(req.params.messageId);
+      const pos = await req.context.models.Blogpost.findById(com.post.toString());
       if (acc.id === com.user.toString() || acc.id === pos.user.toString()) {
         const message = await req.context.models.Blogcomment.findByIdAndDelete(
           req.params.messageId,
@@ -99,8 +103,8 @@ router.put('/:messageId', verifyToken, async (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let com = await req.context.models.Blogcomment.findById(req.params.messageId);
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const com = await req.context.models.Blogcomment.findById(req.params.messageId);
       if (acc.id === com.user.toString()) {
         const message = await req.context.models.Blogcomment.findByIdAndUpdate(
           req.params.messageId,

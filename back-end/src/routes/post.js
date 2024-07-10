@@ -7,14 +7,18 @@ const jwt = require('jsonwebtoken');
 const router = Router();
 
 router.get('/', async (req, res) => {
-  const messages = await req.context.models.Blogpost.find();
+  const messages = await req.context.models.Blogpost.find()
+  .populate("user")
+  .exec();
   return res.send(messages);
 });
 
 router.get('/:messageId', async (req, res) => {
   const message = await req.context.models.Blogpost.findById(
     req.params.messageId,
-  );
+  )
+  .populate("user")
+  .exec();
   return res.send(message);
 });
 
@@ -36,7 +40,7 @@ router.post('/', verifyToken, async (req, res, next) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
       if (acc) {
         const message = await req.context.models.Blogpost.create({
           text: req.body.text,
@@ -70,8 +74,8 @@ router.delete('/:messageId', verifyToken, async (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let use = await req.context.models.Blogpost.findById(req.params.messageId);
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const use = await req.context.models.Blogpost.findById(req.params.messageId);
       if (acc.id === use.user.toString()) {
         const message = await req.context.models.Blogpost.findByIdAndDelete(
           req.params.messageId,
@@ -104,8 +108,8 @@ router.put('/:messageId', verifyToken, async (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let use = await req.context.models.Blogpost.findById(req.params.messageId);
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const use = await req.context.models.Blogpost.findById(req.params.messageId);
       if (acc.id === use.user.toString()) {
         const message = await req.context.models.Blogpost.findByIdAndUpdate(
           req.params.messageId,
