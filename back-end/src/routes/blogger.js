@@ -36,13 +36,21 @@ router.delete('/:userId', verifyToken, async (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let use = await req.context.models.Blogger.findById(req.params.userId);
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const use = await req.context.models.Blogger.findById(req.params.userId);
       if (acc.username === use.username && acc.password === use.password) {
         const user = await req.context.models.Blogger.findByIdAndDelete(
           req.params.userId,
-        );
-      
+      );
+
+        const posts = await req.context.models.Blogpost.find({user: req.params.userId});
+
+        posts.map(async (ele) => {
+          const comments = await req.context.models.Blogcomment.deleteMany({post: ele._id});
+        });
+
+        const poststwo = await req.context.models.Blogpost.deleteMany({user: req.params.userId});
+
         return res.send(user);
     } else {
       res.sendStatus(401);
@@ -66,8 +74,8 @@ router.put('/:userId', verifyToken, async (req, res) => {
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
-      let acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      let use = await req.context.models.Blogger.findById(req.params.userId);
+      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+      const use = await req.context.models.Blogger.findById(req.params.userId);
       if (acc.username === use.username && acc.password === use.password) {
         const user = await req.context.models.Blogger.findByIdAndUpdate(
           req.params.userId,

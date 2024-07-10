@@ -15,10 +15,6 @@ const bloggerSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-  bloggerSchema.pre('remove', function(next) {
-    this.model('Post').deleteMany({ user: this._id }, next);
-  });
-
 const Blogger = mongoose.model('Blogger', bloggerSchema);
 
 export default Blogger;
