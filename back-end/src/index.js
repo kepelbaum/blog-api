@@ -156,6 +156,7 @@ const createUsersWithMessages = async () => {
     title: 'Test Title',
     text: 'AYAYA!',
     user: user1.id,
+    image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
     // ifPublished: false,
   })
 
@@ -163,6 +164,7 @@ const createUsersWithMessages = async () => {
     title: 'Test Title v2.0',
     text: 'AYAYA! AYAYA! AYAYA!!!',
     user: user2.id,
+    image_url: 'https://images.unsplash.com/photo-1481988535861-271139e06469?q=80&w=2690&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   })
 
   const message1 = new models.Blogcomment({
