@@ -4,6 +4,7 @@ import express from 'express';
 import models, { connectDb } from './models';
 import routes from './routes';
 import { verifyToken } from './modules/verifytoken.js';
+const { body, validationResult } = require("express-validator");
 
 const jwt = require('jsonwebtoken');
 
@@ -55,23 +56,33 @@ app.get('/', verifyToken, (req, res) => {
   })
 })
 
-app.post('/sign-up', async (req, res, next) => {
+app.post('/sign-up', 
+  body('username').custom(async value => {
+    const user = await User.findOne({username: value.toLowerCase()}).exec();
+    if (user) {
+      throw new Error('Username "' + req.body.username + '" is already taken.');
+      return false;
+    }
+    else {
+      return true;
+    }
+}),
+body('password').isLength({ min: 5 }).withMessage("Password has to be at least 5 symbols long"),
+body('confirm').custom((value, { req }) => {
+      if (value === req.body.password) return true;
+      else throw new Error('Passwords do not match');
+}),
+  async (req, res, next) => {
+  
   const user = {
     username: req.body.username.toLowerCase(),
     password: req.body.password,
   };
-
-  const check = await models.Blogger.findOne({username: user.username});
-  if (check) {
-    res.send('Username "' + req.body.username + '" is already taken.');
-    }
-  else {
     const newuser = await models.Blogger.create(user)
     .catch(err => { 
       res.send(err);
   });
-  res.send(user);
-  } 
+  res.redirect('/');
 });
 
 
