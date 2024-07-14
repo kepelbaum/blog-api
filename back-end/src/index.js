@@ -58,13 +58,13 @@ app.get('/', verifyToken, (req, res) => {
 
 app.post('/sign-up', 
   body('username').custom(async value => {
-    const user = await User.findOne({username: value.toLowerCase()}).exec();
+    const user = await models.Blogger.findOne({username: value.toLowerCase()}).exec();
     if (user) {
-      throw new Error('Username "' + req.body.username + '" is already taken.');
+      throw new Error('Username "' + value.toLowerCase() + '" is already taken.');
       return false;
     }
     else {
-      return true;
+      return true;  
     }
 }),
 body('password').isLength({ min: 5 }).withMessage("Password has to be at least 5 symbols long"),
@@ -73,7 +73,10 @@ body('confirm').custom((value, { req }) => {
       else throw new Error('Passwords do not match');
 }),
   async (req, res, next) => {
-  
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.send(errors.array());
+    } else {
   const user = {
     username: req.body.username.toLowerCase(),
     password: req.body.password,
@@ -82,7 +85,8 @@ body('confirm').custom((value, { req }) => {
     .catch(err => { 
       res.send(err);
   });
-  res.redirect('/');
+  res.send('Account created.');
+}
 });
 
 
