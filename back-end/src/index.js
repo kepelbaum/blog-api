@@ -86,7 +86,7 @@ body('confirm').custom((value, { req }) => {
     .catch(err => { 
       res.send(err);
   });
-  res.send('Account created.');
+  res.json({"result": 'Account created.'});
 }
 });
 
