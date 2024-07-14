@@ -57,6 +57,7 @@ app.get('/', verifyToken, (req, res) => {
 })
 
 app.post('/sign-up', 
+  body('username').isLength({ min: 1 }).withMessage("Please enter a username."),
   body('username').custom(async value => {
     const user = await models.Blogger.findOne({username: value.toLowerCase()}).exec();
     if (user) {
