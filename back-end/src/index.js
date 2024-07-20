@@ -31,14 +31,14 @@ app.use('/users', routes.blogger);
 app.use('/posts', routes.post);
 app.use('/comments', routes.comment);
 app.get('/not-found', (req, res) => {
-  res.json({'Page not found.'});
+  res.json({result: 'Page not found.'});
 });
 
 app.get('/', verifyToken, (req, res) => {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
       // res.send(Status(403));
-      res.json({'You are not signed in.'});
+      res.json({result: "You are not signed in."});
     } else { 
       const fullVerify = async () => {
       const acc = await models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
@@ -48,7 +48,7 @@ app.get('/', verifyToken, (req, res) => {
       })
     } else {
       // res.sendStatus(401);
-      res.json({'You are not signed in.'});
+      res.json({result: "You are not signed in."});
     }};
     fullVerify();
   }
