@@ -1,5 +1,5 @@
 export default function verifyToken(req, res, next) {
-    const bearerHeader = req.headers['authorization'];
+    const bearerHeader = req.headers.authorization;
   
     if (typeof bearerHeader !== 'undefined') {
       const bearer = bearerHeader.split(' ');
@@ -9,7 +9,7 @@ export default function verifyToken(req, res, next) {
     }
     else {
       // res.sendStatus(403);
-      res.json({'You are not signed in.'})
+      res.json({result: "You are not signed in."})
     }
   }
 
