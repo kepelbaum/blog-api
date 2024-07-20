@@ -9,7 +9,7 @@ export default function verifyToken(req, res, next) {
     }
     else {
       // res.sendStatus(403);
-      res.send('You are not signed in.')
+      res.json({'You are not signed in.'})
     }
   }
 
