@@ -1,8 +1,9 @@
 import { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "./App.jsx";
 
 const Login = ({ delay }) => {
+  const navigate = useNavigate();
   const { users, posts, comments, loggedin, setLoggedin } =
     useContext(AppContext);
   const [name, setName] = useState("");
@@ -22,32 +23,33 @@ const Login = ({ delay }) => {
     setConf(e.target.value);
   }
 
+  function movePage() {
+    navigate("/");
+  }
+
   function handleSubmit() {
-    let sample = {
-      username: "",
-      password: "test",
-      confirm: "test",
-    };
     fetch("https://blog-api-production-1313.up.railway.app/sign-up", {
       mode: "cors",
       method: "POST",
-      body: JSON.stringify(sample),
+      body: JSON.stringify({
+        username: name,
+        password: pass,
+        confirm: conf,
+      }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
       },
     })
       .then((response) => response.json())
       .then((response) => {
-        setErrors(response);
-        console.log(response);
+        if (response.result) {
+          setErrors(null);
+          movePage();
+        } else {
+          setErrors(response);
+        }
       })
       .catch((error) => console.error(error));
-    // fetch("https://blog-api-production-1313.up.railway.app/users", {
-    //   mode: "cors",
-    // })
-    //   .then((response) => response.json())
-    //   .then((response) => setErrors(response))
-    //   .catch((error) => setErrors(error));
   }
 
   return (

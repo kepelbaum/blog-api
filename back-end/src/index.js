@@ -106,7 +106,7 @@ app.post('/login', async (req, res, next) => {
     });
   }
   else {
-    res.send('Wrong username and/or password.')
+    res.json("result": 'Wrong username and/or password.')
   } 
 });
 
