@@ -4,11 +4,9 @@ import { AppContext } from "./App.jsx";
 
 const Login = ({ delay }) => {
   const navigate = useNavigate();
-  const { users, posts, comments, loggedin, setLoggedin } =
-    useContext(AppContext);
+  const { users, posts, comments, token, setToken } = useContext(AppContext);
   const [name, setName] = useState("");
   const [pass, setPass] = useState("");
-  const [conf, setConf] = useState("");
   const [errors, setErrors] = useState(null);
 
   function handleUser(e) {
@@ -34,7 +32,6 @@ const Login = ({ delay }) => {
       body: JSON.stringify({
         username: name,
         password: pass,
-        confirm: conf,
       }),
       headers: {
         "Content-type": "application/json; charset=UTF-8",
@@ -43,8 +40,9 @@ const Login = ({ delay }) => {
       .then((response) => response.json())
       .then((response) => {
         if (response.result) {
-          setErrors(response);
+          setErrors(response.result);
         } else {
+          setToken(response.token);
           movePage();
         }
       })
@@ -69,17 +67,12 @@ const Login = ({ delay }) => {
           </ul>
         </div>
         <div>
-          {errors &&
-            errors.map((ele) => {
-              return <h2>{ele.msg}</h2>;
-            })}
+          <h2>{errors}</h2>
           <div className="form">
             <label htmlFor="username">Username (lowercase)</label>
             <input type="text" id="username" onChange={handleUser}></input>
             <label htmlFor="password">Password</label>
             <input type="password" id="password" onChange={handlePass}></input>
-            <label htmlFor="confirm">Confirm Password</label>
-            <input type="password" id="confirm" onChange={handleConf}></input>
             <button type="submit" onClick={handleSubmit}>
               Submit
             </button>

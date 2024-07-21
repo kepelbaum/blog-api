@@ -12,15 +12,22 @@ export const AppContext = createContext({
   users: [],
   posts: [],
   comments: [],
-  loggedin: "",
-  setLoggedin: () => {},
+  user: "",
+  setUser: () => {},
+  token: "",
+  setToken: () => {},
+  logout: () => {},
 });
 
 function App({ delay }) {
   const [users, setUsers] = useState(null);
   const [posts, setPosts] = useState(null);
   const [comments, setComments] = useState(null);
-  const [loggedin, setLoggedin] = useState(null);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null);
+  const logout = () => {
+    setToken(null);
+  };
 
   useEffect(() => {
     setTimeout(() => {
@@ -55,9 +62,29 @@ function App({ delay }) {
     });
   }, [comments]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      fetch("https://blog-api-production-1313.up.railway.app", {
+        mode: "cors",
+        headers: {
+          authorization: "Bearer " + (token ? token.toString() : ""),
+        },
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          if (response.message) {
+            setUser(response.message);
+          } else {
+            setUser(response.result);
+          }
+        })
+        .catch((error) => console.error(error));
+    });
+  }, [token]);
+
   return (
     <AppContext.Provider
-      value={{ users, posts, comments, loggedin, setLoggedin }}
+      value={{ users, posts, comments, user, setUser, token, setToken, logout }}
     >
       <BrowserRouter>
         <Routes>

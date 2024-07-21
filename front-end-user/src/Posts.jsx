@@ -1,9 +1,10 @@
 import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import { AppContext } from "./App.jsx";
+// import logout from "./logout.js";
 
 const Posts = ({ delay }) => {
-  const { users, posts, comments, loggedin, setLoggedin } =
+  const { users, posts, comments, user, token, setToken, logout } =
     useContext(AppContext);
 
   return (
@@ -18,11 +19,19 @@ const Posts = ({ delay }) => {
             <Link to={"/users"}>
               <li>Users</li>
             </Link>
-            <Link to={"/login"}>
-              <li>Login</li>
-            </Link>
+            {!token && (
+              <Link to={"/login"}>
+                <li>Login</li>
+              </Link>
+            )}
+            {token && (
+              <Link to={"/"}>
+                <li onClick={logout}>Logout</li>
+              </Link>
+            )}
           </ul>
         </div>
+        <h2>{user}</h2>
         <div className="grid">
           {posts.map((ele) => {
             return (
