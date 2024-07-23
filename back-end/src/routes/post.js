@@ -52,7 +52,7 @@ router.post('/', verifyToken, async (req, res, next) => {
           error.statusCode = 400;
           next(error);
         });
-        return res.send(message);
+        return res.json({message: "Message created"});
     } else {
       res.sendStatus(401);
     }};
@@ -82,7 +82,7 @@ router.delete('/:messageId', verifyToken, async (req, res) => {
         );
         const comdelete = await req.context.models.Blogcomment.deleteMany({post: use.id});
       
-        return res.send(message);
+        return res.json({message: "Message deleted"});
     } else {
       res.sendStatus(401);
     }};
@@ -119,7 +119,7 @@ router.put('/:messageId', verifyToken, async (req, res) => {
             ifPublished: req.body.ifPublished,},
         );
       
-        return res.send(message);
+        return res.json({message: "Message updated"});
     } else {
       console.log(acc.id + ' AYAYA ' + use.user);
       res.sendStatus(401);

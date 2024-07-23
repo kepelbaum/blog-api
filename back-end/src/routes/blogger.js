@@ -11,66 +11,52 @@ router.get('/', async (req, res) => {
   return res.send(users);
 });
 
-router.post('/', async (req, res) => {
-  const user = await req.context.models.Blogger.create({
-    username: req.body.username,
-    password: req.body.password,
-  }).catch((error) => {
-    error.statusCode = 400;
-    next(error);
-  });
+// Commented out code below is unused, blogger creation moved to index.js
+// router.post('/', async (req, res) => {
+//   const user = await req.context.models.Blogger.create({
+//     username: req.body.username,
+//     password: req.body.password,
+//   }).catch((error) => {
+//     error.statusCode = 400;
+//     next(error);
+//   });
+//   return res.send(user);
+// });
 
-  // await user.save();
-  return res.send(user);
-});
+// router.delete('/:userId', verifyToken, async (req, res) => {
+//   jwt.verify(req.token, 'secretkey', (err, authData) => {
+//     if(err) {
+//       res.send('You are not signed in.');
+//     } else { 
+//       const fullVerify = async () => {
+//       const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+//       const use = await req.context.models.Blogger.findById(req.params.userId);
+//       if (acc.username === use.username && acc.password === use.password) {
+//         const user = await req.context.models.Blogger.findByIdAndDelete(
+//           req.params.userId,
+//       );
 
-router.delete('/:userId', verifyToken, async (req, res) => {
-  // const user = await req.context.models.Blogger.findByIdAndDelete(
-  //   req.params.userId,
-  // ); 
+//         const posts = await req.context.models.Blogpost.find({user: req.params.userId});
 
-  // return res.send(user);
-  jwt.verify(req.token, 'secretkey', (err, authData) => {
-    if(err) {
-      // res.send(Status(403));
-      res.send('You are not signed in.');
-    } else { 
-      const fullVerify = async () => {
-      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      const use = await req.context.models.Blogger.findById(req.params.userId);
-      if (acc.username === use.username && acc.password === use.password) {
-        const user = await req.context.models.Blogger.findByIdAndDelete(
-          req.params.userId,
-      );
+//         posts.map(async (ele) => {
+//           const comments = await req.context.models.Blogcomment.deleteMany({post: ele._id});
+//         });
 
-        const posts = await req.context.models.Blogpost.find({user: req.params.userId});
+//         const poststwo = await req.context.models.Blogpost.deleteMany({user: req.params.userId});
 
-        posts.map(async (ele) => {
-          const comments = await req.context.models.Blogcomment.deleteMany({post: ele._id});
-        });
-
-        const poststwo = await req.context.models.Blogpost.deleteMany({user: req.params.userId});
-
-        return res.send(user);
-    } else {
-      res.sendStatus(401);
-    }};
-    fullVerify();
-  }
-  })
-});
+//         return res.json({"Account deleted"});
+//     } else {
+//       res.sendStatus(401);
+//     }};
+//     fullVerify();
+//   }
+//   })
+// });
 
 router.put('/:userId', verifyToken, async (req, res) => {
-  // const user = await req.context.models.Blogger.findByIdAndUpdate(
-  //   req.params.userId,
-  //   {password: req.body.password},
-  // );
-
-  // return res.send(user);
 
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
@@ -81,7 +67,7 @@ router.put('/:userId', verifyToken, async (req, res) => {
           req.params.userId,
           {password: req.body.password},
         );
-        return res.send(user);
+        return res.json({"Password updated"});
     } else {
       res.sendStatus(401);
     }};

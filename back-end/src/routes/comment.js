@@ -50,7 +50,7 @@ router.post('/:messageId', verifyToken, async (req, res, next) => {
           error.statusCode = 400;
           next(error);
         });
-        return res.send(message);
+        return res.json({message: "Message created"});
     } else {
       res.sendStatus(401);
     }};
@@ -80,7 +80,7 @@ router.delete('/:messageId', verifyToken, async (req, res) => {
           req.params.messageId,
         );
       
-        return res.send(message);
+        return res.json({message: "Message deleted"});
     } else {
       res.sendStatus(401);
     }};
@@ -111,7 +111,7 @@ router.put('/:messageId', verifyToken, async (req, res) => {
           {text: req.body.text},
         );
       
-        return res.send(message);
+        return res.json({message: "Message updated"});
     } else {
       res.sendStatus(401);
     }};
