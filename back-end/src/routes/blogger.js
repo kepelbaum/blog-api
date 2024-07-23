@@ -67,7 +67,7 @@ router.put('/:userId', verifyToken, async (req, res) => {
           req.params.userId,
           {password: req.body.password},
         );
-        return res.json({"Password updated"});
+        return res.json({message: "Password updated"});
     } else {
       res.sendStatus(401);
     }};
