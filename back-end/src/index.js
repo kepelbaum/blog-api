@@ -45,6 +45,7 @@ app.get('/', verifyToken, (req, res) => {
       if (acc) {
       res.json({
         message: 'Welcome, ' + authData.user.username + '!',
+        name: authData.user.username,
       })
     } else {
       // res.sendStatus(401);
