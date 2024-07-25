@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { verifyToken } from '../modules/verifytoken.js';
+import { verify } from 'crypto';
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require("express-validator");
 
@@ -60,7 +61,7 @@ body('password').isLength({ min: 5 }).withMessage("Password has to be at least 5
 body('confirm').custom((value, { req }) => {
       if (value === req.body.password) return true;
       else throw new Error('Passwords do not match');
-}), 
+}),  verifyToken,
   async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
