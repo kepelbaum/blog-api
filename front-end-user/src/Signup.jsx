@@ -3,13 +3,18 @@ import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "./App.jsx";
 
 const Login = ({ delay }) => {
-  const navigate = useNavigate();
-  const { users, posts, comments, loggedin, setLoggedin } =
+  const { users, posts, comments, token, setToken, logout } =
     useContext(AppContext);
   const [name, setName] = useState("");
   const [pass, setPass] = useState("");
   const [conf, setConf] = useState("");
   const [errors, setErrors] = useState(null);
+
+  const navigate = useNavigate();
+
+  const movePage = (url) => {
+    navigate(url);
+  };
 
   function handleUser(e) {
     setName(e.target.value);
@@ -21,10 +26,6 @@ const Login = ({ delay }) => {
 
   function handleConf(e) {
     setConf(e.target.value);
-  }
-
-  function movePage() {
-    navigate("/");
   }
 
   function handleSubmit() {
@@ -44,7 +45,29 @@ const Login = ({ delay }) => {
       .then((response) => {
         if (response.result) {
           setErrors(null);
-          movePage();
+
+          fetch("https://blog-api-production-1313.up.railway.app/login", {
+            mode: "cors",
+            method: "POST",
+            body: JSON.stringify({
+              username: name,
+              password: pass,
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          })
+            .then((response) => response.json())
+            .then((response) => {
+              if (response.result) {
+                throw new Error("Cannot log in");
+              } else {
+                setToken(response.token);
+                localStorage.setItem("token", response.token);
+                movePage("/");
+              }
+            })
+            .catch((error) => console.error(error));
         } else {
           setErrors(response);
         }
@@ -53,8 +76,8 @@ const Login = ({ delay }) => {
   }
 
   return (
-    (posts && users && comments && (
-      <div className="wrapper">
+    (!token && (
+      <div className="wrapper big">
         <div className="header">
           <h3>Blog API</h3>
           <ul>
@@ -87,7 +110,7 @@ const Login = ({ delay }) => {
           </div>
         </div>
       </div>
-    )) || <h1>Loading...</h1>
+    )) || <h1>You already logged in.</h1>
   );
 };
 

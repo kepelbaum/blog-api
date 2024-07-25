@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState, createContext } from "react";
 import "./App.css";
 import Posts from "./Posts.jsx";
@@ -7,6 +7,7 @@ import Blogger from "./Blogger.jsx";
 import Post from "./Post.jsx";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
+import Comment from "./Comment.jsx";
 
 export const AppContext = createContext({
   users: [],
@@ -24,9 +25,10 @@ function App({ delay }) {
   const [posts, setPosts] = useState(null);
   const [comments, setComments] = useState(null);
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token"));
   const logout = () => {
     setToken(null);
+    localStorage.removeItem("token");
   };
 
   useEffect(() => {
@@ -84,7 +86,16 @@ function App({ delay }) {
 
   return (
     <AppContext.Provider
-      value={{ users, posts, comments, user, setUser, token, setToken, logout }}
+      value={{
+        users,
+        posts,
+        comments,
+        user,
+        setUser,
+        token,
+        setToken,
+        logout,
+      }}
     >
       <BrowserRouter>
         <Routes>
@@ -94,6 +105,7 @@ function App({ delay }) {
           <Route path="posts/:id" element={<Post />} />
           <Route path="login" element={<Login />} />
           <Route path="sign-up" element={<Signup />} />
+          <Route path="posts/:id/create" element={<Comment />} />
         </Routes>
       </BrowserRouter>
     </AppContext.Provider>

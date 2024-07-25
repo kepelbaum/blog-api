@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import { AppContext } from "./App.jsx";
 
 const Bloggers = ({ delay }) => {
-  const { users, posts, comments } = useContext(AppContext);
+  const { users, posts, comments, user, token, setToken, logout } =
+    useContext(AppContext);
 
   return (
     (posts && users && comments && (
@@ -17,11 +18,19 @@ const Bloggers = ({ delay }) => {
             <Link to={"/users"}>
               <li>Users</li>
             </Link>
-            <Link to={"/login"}>
-              <li>Login</li>
-            </Link>
+            {!token && (
+              <Link to={"/login"}>
+                <li>Login</li>
+              </Link>
+            )}
+            {token && (
+              <Link to={"/"}>
+                <li onClick={logout}>Logout</li>
+              </Link>
+            )}
           </ul>
         </div>
+        <h2>{user}</h2>
         <div className="minigrid">
           {users.map((ele) => {
             return (

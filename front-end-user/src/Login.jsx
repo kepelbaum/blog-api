@@ -4,7 +4,8 @@ import { AppContext } from "./App.jsx";
 
 const Login = ({ delay }) => {
   const navigate = useNavigate();
-  const { users, posts, comments, token, setToken } = useContext(AppContext);
+  const { users, posts, comments, token, setToken, logout } =
+    useContext(AppContext);
   const [name, setName] = useState("");
   const [pass, setPass] = useState("");
   const [errors, setErrors] = useState(null);
@@ -21,8 +22,8 @@ const Login = ({ delay }) => {
     setConf(e.target.value);
   }
 
-  function movePage() {
-    navigate("/");
+  function movePage(url) {
+    navigate(url);
   }
 
   function handleSubmit() {
@@ -43,15 +44,16 @@ const Login = ({ delay }) => {
           setErrors(response.result);
         } else {
           setToken(response.token);
-          movePage();
+          localStorage.setItem("token", response.token);
+          movePage("/");
         }
       })
       .catch((error) => console.error(error));
   }
 
   return (
-    (posts && users && comments && (
-      <div className="wrapper">
+    (!token && (
+      <div className="wrapper big">
         <div className="header">
           <h3>Blog API</h3>
           <ul>
@@ -61,9 +63,16 @@ const Login = ({ delay }) => {
             <Link to={"/users"}>
               <li>Users</li>
             </Link>
-            <Link to={"/login"}>
-              <li>Login</li>
-            </Link>
+            {!token && (
+              <Link to={"/login"}>
+                <li>Login</li>
+              </Link>
+            )}
+            {token && (
+              <Link to={"/"}>
+                <li onClick={logout}>Logout</li>
+              </Link>
+            )}
           </ul>
         </div>
         <div>
@@ -77,9 +86,17 @@ const Login = ({ delay }) => {
               Submit
             </button>
           </div>
+          <div className="margin">
+            <span>
+              Don't have an account? Sign up{" "}
+              <span className="visiblelink">
+                <Link to={"/sign-up"}>here.</Link>
+              </span>
+            </span>
+          </div>
         </div>
       </div>
-    )) || <h1>Loading...</h1>
+    )) || <h1>You already logged in.</h1>
   );
 };
 
