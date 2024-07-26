@@ -9,8 +9,7 @@ const Edit = () => {
   const [text, setText] = useState(null);
   const [title, setTitle] = useState(null);
   const [url, setURL] = useState(null);
-  const [pub, setPub] = useState(true);
-  const [init, setInit] = useState(true);
+  const [ifPubChanged, setPubChanged] = useState(false); //whether ifPublished has been changed
   const [errors, setErrors] = useState(null);
   const [ifUrlChanged, setUrlChanged] = useState(false);
 
@@ -34,15 +33,10 @@ const Edit = () => {
   }
 
   function handleCheck(e) {
-    if (init) {
-      setInit(false);
+    if (ifPubChanged) {
+      setPubChanged(false);
     } else {
-      setInit(true);
-    }
-    if (pub) {
-      setPub(false);
-    } else {
-      setPub(true);
+      setPubChanged(true);
     }
   }
 
@@ -50,17 +44,23 @@ const Edit = () => {
     let oldText = e.target.getAttribute("initText");
     let oldTitle = e.target.getAttribute("initTitle");
     let oldUrl = e.target.getAttribute("initUrl");
+    let oldPub = e.target.getAttribute("initPub");
+    if (ifPubChanged) {
+      if (oldPub === "true") {
+        oldPub = "false";
+      } else {
+        oldPub = "true";
+      }
+    }
     if (url === "" && ifUrlChanged) {
-      console.log("im here");
       oldUrl = null;
     }
-    console.log(url, oldUrl, ifUrlChanged);
     fetch("https://blog-api-production-1313.up.railway.app/posts/" + id, {
       mode: "cors",
       method: "PUT",
       body: JSON.stringify({
         text: text ? text : oldText,
-        ifPublished: pub,
+        ifPublished: oldPub === "true" ? true : false,
         image_url: url ? url : oldUrl,
         title: title ? title : oldTitle,
       }),
@@ -128,14 +128,14 @@ const Edit = () => {
                 onChange={handleURL}
               ></input>
               <label htmlFor="check">Make private (y/n):</label>
-              {(ele.ifPublished || (!ele.ifPublished && !init)) && (
+              {(ele.ifPublished || (!ele.ifPublished && ifPubChanged)) && (
                 <input
                   type="checkbox"
                   id="check"
                   onChange={handleCheck}
                 ></input>
               )}
-              {!ele.ifPublished && init && (
+              {!ele.ifPublished && !ifPubChanged && (
                 <input
                   type="checkbox"
                   id="check"
@@ -156,6 +156,7 @@ const Edit = () => {
                 initText={ele.text}
                 initTitle={ele.title}
                 initUrl={ele.image_url}
+                initPub={ele.ifPublished.toString()}
               >
                 Submit
               </button>

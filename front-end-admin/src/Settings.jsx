@@ -2,10 +2,9 @@ import { useState, useContext } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { AppContext } from "./App.jsx";
 
-const Comment = ({ delay }) => {
+const Comment = () => {
   const { users, posts, comments, token, logout, user } =
     useContext(AppContext);
-  const { id } = useParams();
   const [pass, setPass] = useState("");
   const [conf, setConf] = useState("");
   const [errors, setErrors] = useState(null);
