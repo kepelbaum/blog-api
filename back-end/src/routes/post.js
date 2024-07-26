@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import { Router } from 'express';
 import { verifyToken } from '../modules/verifytoken.js';
+const { body, validationResult } = require("express-validator");
 
 const jwt = require('jsonwebtoken');
 
@@ -22,18 +23,15 @@ router.get('/:messageId', async (req, res) => {
   return res.send(message);
 });
 
-router.post('/', verifyToken, async (req, res, next) => {
-  // const message = await req.context.models.Blogpost.create({
-  //   text: req.body.text,
-  //   user: req.body.user,
-  //   title: req.body.title,
-  //   ifPublished: req.body.ifPublished,
-  // }).catch((error) => {
-  //   error.statusCode = 400;
-  //   next(error);
-  // });
-  // return res.send(message);
-
+router.post('/', 
+body('title').isLength({ min: 1 }).withMessage("Title is mandatory."),
+body('text').isLength({ min: 1 }).withMessage("Message body cannot be empty."),
+  verifyToken,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.send(errors.array());
+    } else {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
       // res.send(Status(403));
@@ -58,7 +56,7 @@ router.post('/', verifyToken, async (req, res, next) => {
     }};
     fullVerify();
   }
-  })
+  })}
 });   
 
 router.delete('/:messageId', verifyToken, async (req, res) => {
