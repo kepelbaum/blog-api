@@ -89,17 +89,14 @@ router.delete('/:messageId', verifyToken, async (req, res) => {
   })
 });
 
-router.put('/:messageId', verifyToken, async (req, res) => {
-  // const message = await req.context.models.Blogpost.findByIdAndUpdate(
-  //   req.params.messageId,
-  //   {text: req.body.text,
-  //     title: req.body.title,
-  //     image_url: req.body.image_url,
-  //     ifPublished: req.body.ifPublished,},
-  // );
-
-  // return res.send(message);
-
+router.put('/:messageId', 
+body('title').isLength({ min: 1 }).withMessage("Title is mandatory."),
+body('text').isLength({ min: 1 }).withMessage("Message body cannot be empty."),
+verifyToken, async (req, res, next) => {
+  const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.send(errors.array());
+    } else {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
       // res.send(Status(403));
@@ -124,7 +121,7 @@ router.put('/:messageId', verifyToken, async (req, res) => {
     }};
     fullVerify();
   }
-  })
+  })}
 });
 
 
