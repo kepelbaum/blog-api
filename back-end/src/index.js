@@ -21,12 +21,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(async (req, res, next) => {
   req.context = {
     models, 
-    // me: await models.Blogger.findByLogin('rwieruch'),
   };
   next();
 });
 
-// app.use('/session', routes.session);
 app.use('/users', routes.blogger);
 app.use('/posts', routes.post);
 app.use('/comments', routes.comment);
@@ -37,7 +35,6 @@ app.get('/not-found', (req, res) => {
 app.get('/', verifyToken, (req, res) => {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.json({result: "You are not signed in."});
     } else { 
       const fullVerify = async () => {
@@ -49,7 +46,6 @@ app.get('/', verifyToken, (req, res) => {
         id: acc.id,
       })
     } else {
-      // res.sendStatus(401);
       res.json({result: "You are not signed in."});
     }};
     fullVerify();
@@ -261,17 +257,3 @@ const createUsersWithMessages = async () => {
 
 };
 
-// function verifyToken(req, res, next) {
-//   const bearerHeader = req.headers['authorization'];
-
-//   if (typeof bearerHeader !== 'undefined') {
-//     const bearer = bearerHeader.split(' ');
-//     const bearerToken = bearer[1];
-//     req.token = bearerToken;
-//     next();
-//   }
-//   else {
-//     // res.sendStatus(403);
-//     res.send('You are not signed in.')
-//   }
-// }

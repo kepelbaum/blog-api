@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { verifyToken } from '../modules/verifytoken.js';
-import { verify } from 'crypto';
 const jwt = require('jsonwebtoken');
 const { body, validationResult } = require("express-validator");
 
@@ -10,7 +9,7 @@ const router = Router();
 
 
 router.get('/', async (req, res) => {
-  const users = await req.context.models.Blogger.find();
+  const users = await req.context.models.Blogger.find().select('-password');
   return res.send(users);
 });
 
@@ -91,7 +90,7 @@ body('confirm').custom((value, { req }) => {
 router.get('/:userId', async (req, res) => {
   const user = await req.context.models.Blogger.findById(
     req.params.userId,
-  );
+  ).select("-password");
   return res.send(user);
 });
 

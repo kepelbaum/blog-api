@@ -9,7 +9,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const messages = await req.context.models.Blogpost.find()
-  .populate("user")
+  .populate("user", "-password")
   .exec();
   return res.send(messages);
 });
@@ -18,7 +18,7 @@ router.get('/:messageId', async (req, res) => {
   const message = await req.context.models.Blogpost.findById(
     req.params.messageId,
   )
-  .populate("user")
+  .populate("user", "-password")
   .exec();
   return res.send(message);
 });
@@ -34,7 +34,6 @@ body('text').isLength({ min: 1 }).withMessage("Message body cannot be empty."),
     } else {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
@@ -60,15 +59,9 @@ body('text').isLength({ min: 1 }).withMessage("Message body cannot be empty."),
 });   
 
 router.delete('/:messageId', verifyToken, async (req, res) => {
-  // const message = await req.context.models.Blogpost.findByIdAndDelete(
-  //   req.params.messageId,
-  // );
-
-  // return res.send(message);
   
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
@@ -99,7 +92,6 @@ verifyToken, async (req, res, next) => {
     } else {
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {

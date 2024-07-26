@@ -8,7 +8,7 @@ const router = Router();
 
 router.get('/', async (req, res) => {
   const messages = await req.context.models.Blogcomment.find()
-  .populate("user")
+  .populate("user", "-password")
   .exec();
   return res.send(messages);
 });
@@ -17,25 +17,15 @@ router.get('/:messageId', async (req, res) => {
   const message = await req.context.models.Blogcomment.findById(
     req.params.messageId,
   )
-  .populate("user")
+  .populate("user", "-password")
   .exec();
   return res.send(message);
 });
 
 router.post('/:messageId', verifyToken, async (req, res, next) => {
-  // const message = await req.context.models.Blogcomment.create({
-  //   text: req.body.text,
-  //   user: req.body.user,
-  //   post: req.body.post,
-  // }).catch((error) => {
-  //   error.statusCode = 400;
-  //   next(error);
-  // });
-  // return res.send(message);
 
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
@@ -60,22 +50,16 @@ router.post('/:messageId', verifyToken, async (req, res, next) => {
 });   
 
 router.delete('/:messageId', verifyToken, async (req, res) => {
-  // const message = await req.context.models.Blogcomment.findByIdAndDelete(
-  //   req.params.messageId,
-  // );
-
-  // return res.send(message);
 
   jwt.verify(req.token, 'secretkey', (err, authData) => {
     if(err) {
-      // res.send(Status(403));
       res.send('You are not signed in.');
     } else { 
       const fullVerify = async () => {
       const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
       const com = await req.context.models.Blogcomment.findById(req.params.messageId);
       const pos = await req.context.models.Blogpost.findById(com.post.toString());
-      if (acc.id === com.user.toString() || acc.id === pos.user.toString()) {
+      if (acc.id === com.user.toString() || acc.id === pos.user.toString()) { // currently not intended for user to be able to delete their own posts, but keeping this just in case
         const message = await req.context.models.Blogcomment.findByIdAndDelete(
           req.params.messageId,
         );
@@ -89,36 +73,31 @@ router.delete('/:messageId', verifyToken, async (req, res) => {
   })
 });
 
-router.put('/:messageId', verifyToken, async (req, res) => {
-  // const message = await req.context.models.Blogcomment.findByIdAndUpdate(
-  //   req.params.messageId,
-  //   {text: req.body.text},
-  // );
+// currently unused - not necessary for user/blog owner to be able to edit posts
+// router.put('/:messageId', verifyToken, async (req, res) => {
 
-  // return res.send(message);
-
-  jwt.verify(req.token, 'secretkey', (err, authData) => {
-    if(err) {
-      // res.send(Status(403));
-      res.send('You are not signed in.');
-    } else { 
-      const fullVerify = async () => {
-      const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
-      const com = await req.context.models.Blogcomment.findById(req.params.messageId);
-      if (acc.id === com.user.toString()) {
-        const message = await req.context.models.Blogcomment.findByIdAndUpdate(
-          req.params.messageId,
-          {text: req.body.text},
-        );
+//   jwt.verify(req.token, 'secretkey', (err, authData) => {
+//     if(err) {
+//       // res.send(Status(403));
+//       res.send('You are not signed in.');
+//     } else { 
+//       const fullVerify = async () => {
+//       const acc = await req.context.models.Blogger.findOne({username: authData.user.username, password: authData.user.password});
+//       const com = await req.context.models.Blogcomment.findById(req.params.messageId);
+//       if (acc.id === com.user.toString()) {
+//         const message = await req.context.models.Blogcomment.findByIdAndUpdate(
+//           req.params.messageId,
+//           {text: req.body.text},
+//         );
       
-        return res.json({message: "Message updated"});
-    } else {
-      res.sendStatus(401);
-    }};
-    fullVerify();
-  }
-  })
-});
+//         return res.json({message: "Message updated"});
+//     } else {
+//       res.sendStatus(401);
+//     }};
+//     fullVerify();
+//   }
+//   })
+// });
 
 
 export default router;

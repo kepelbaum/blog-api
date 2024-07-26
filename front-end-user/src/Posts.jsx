@@ -33,6 +33,7 @@ const Posts = ({ delay }) => {
         <h2>{user}</h2>
         <div className="grid">
           {posts
+            .filter((ele) => ele.ifPublished)
             .sort(function (a, b) {
               return new Date(b.date) - new Date(a.date);
             })
@@ -50,12 +51,17 @@ const Posts = ({ delay }) => {
                         ? ele.title.substring(0, 39) + "..."
                         : ele.title}
                     </h3>
-                    <img src={ele.image_url} width="100%" height="200"></img>
-                    <p>
-                      {ele.text.length > 200
-                        ? ele.text.substring(0, 199) + "..."
-                        : ele.text}
-                    </p>
+                    {ele.image_url && (
+                      <img src={ele.image_url} width="100%" height="200"></img>
+                    )}
+                    {!ele.image_url && <div className="filler"></div>}
+                    <div className="core">
+                      <p>
+                        {ele.text.length > 200
+                          ? ele.text.substring(0, 199) + "..."
+                          : ele.text}
+                      </p>
+                    </div>
                   </div>
                 </Link>
               );

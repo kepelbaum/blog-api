@@ -1,0 +1,26 @@
+[33m663fcc7[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m feat: front end user api complete
+[33mb141c9b[m fix: res.json typo
+[33m13c73e7[m fix: switch all successful result res.send to res.json
+[33mabdf370[m feat: implement authorization on frontend
+[33m29e8683[m fix: fix typo for res.json in verifytoken
+[33me317f1a[m fix: change verifytoken res to json
+[33m3bb30af[m fix: fix json syntax
+[33mdb8ca1f[m fix: change backend res.send to res.json
+[33m55fbe43[m fix: add missing bracket
+[33m6f3ecb6[m feat: change backend login json, finish signup page for user frontend
+[33m50a8c27[m fix: make response for acc creation into json
+[33m74ab9d9[m fix: add username length validation
+[33mc0ec8a8[m fix: fix signup not working
+[33md2fe5f1[m feat: add express-validator
+[33m2e0f393[m fix: bugfix for unterminated string
+[33m8f39a18[m fix: make longer sample posts/comments to test UI
+[33mb0e5590[m fix: added image_url for testing
+[33mf898586[m feat: populate user for posts/messages
+[33mb31e496[m feat: delete user's posts on user deletion
+[33mb5b6004[m fix: revert last cors change
+[33mb061877[m fix: cors
+[33m7d6a454[m fix: cors install
+[33m503dc64[m fix: added dotenv to backend, frontend wip
+[33mf0a4da6[m feat: implement JWT, add additional backend logic
+[33m3e364ac[m feat: finish backend core functionality
+[33maec4b4f[m Initial commit
