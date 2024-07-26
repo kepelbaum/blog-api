@@ -175,7 +175,7 @@ const createUsersWithMessages = async () => {
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     user: user1.id,
     image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    // ifPublished: false,
+    ifPublished: false,
   })
 
   const post2 = new models.Blogpost({
@@ -183,6 +183,7 @@ const createUsersWithMessages = async () => {
     text: 'AYAYA! AYAYA! AYAYA!!!',
     user: user2.id,
     image_url: 'https://images.unsplash.com/photo-1481988535861-271139e06469?q=80&w=2690&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    ifPublished: true,
   })
 
   const post3 = new models.Blogpost({
@@ -190,7 +191,7 @@ const createUsersWithMessages = async () => {
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
     user: user1.id,
     image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    // ifPublished: false,
+    ifPublished: true,
   })
 
   const post4 = new models.Blogpost({
@@ -198,7 +199,7 @@ const createUsersWithMessages = async () => {
     text: 'Arcu cursus vitae congue mauris rhoncus aenean. Tempor id eu nisl nunc mi ipsum faucibus vitae. Pellentesque adipiscing commodo elit at imperdiet dui accumsan sit. Etiam dignissim diam quis enim lobortis scelerisque. In iaculis nunc sed augue lacus viverra vitae congue eu. Facilisi nullam vehicula ipsum a arcu cursus vitae. Tincidunt augue interdum velit euismod in pellentesque massa placerat. Placerat orci nulla pellentesque dignissim enim sit amet venenatis urna. Id leo in vitae turpis massa sed elementum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames. Arcu felis bibendum ut tristique et egestas quis ipsum. Proin sed libero enim sed.',
     user: user1.id,
     image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    // ifPublished: false,
+    ifPublished: true,
   })
 
   const post5 = new models.Blogpost({
@@ -206,7 +207,7 @@ const createUsersWithMessages = async () => {
     text: 'Faucibus purus in massa tempor nec feugiat. Quam id leo in vitae turpis. Lacus sed viverra tellus in hac habitasse platea dictumst. Id diam maecenas ultricies mi eget mauris. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar sapien et. Faucibus in ornare quam viverra orci sagittis. Felis donec et odio pellentesque diam volutpat commodo sed. Turpis massa sed elementum tempus egestas sed sed. Id aliquet risus feugiat in ante metus. Mi tempus imperdiet nulla malesuada pellentesque elit eget gravida cum. Quam vulputate dignissim suspendisse in est ante in. Nec tincidunt praesent semper feugiat nibh sed. Interdum velit euismod in pellentesque massa placerat duis. Nisl purus in mollis nunc. Nunc sed velit dignissim sodales ut. Ultrices eros in cursus turpis massa tincidunt dui ut. Amet venenatis urna cursus eget nunc scelerisque viverra mauris in. Mi sit amet mauris commodo quis. Elementum tempus egestas sed sed risus pretium.',
     user: user1.id,
     image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    // ifPublished: false,
+    ifPublished: true,
   })
 
   const post6 = new models.Blogpost({
@@ -214,7 +215,7 @@ const createUsersWithMessages = async () => {
     text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Commodo sed egestas egestas fringilla phasellus faucibus scelerisque. Eget nunc lobortis mattis aliquam. Facilisi morbi tempus iaculis urna. Dapibus ultrices in iaculis nunc sed augue. Sapien pellentesque habitant morbi tristique senectus et netus et. Id consectetur purus ut faucibus pulvinar elementum. Quisque non tellus orci ac auctor augue mauris. Sed egestas egestas fringilla phasellus faucibus scelerisque. Ut venenatis tellus in metus. Aliquet lectus proin nibh nisl condimentum id venenatis. Magna etiam tempor orci eu lobortis elementum nibh. Et odio pellentesque diam volutpat commodo sed egestas. Commodo quis imperdiet massa tincidunt nunc pulvinar sapien.',
     user: user1.id,
     image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    // ifPublished: false,
+    ifPublished: false,
   })
 
   const post7 = new models.Blogpost({
@@ -222,7 +223,7 @@ const createUsersWithMessages = async () => {
     text: 'Ut tellus elementum sagittis vitae. Aliquam ut porttitor leo a diam sollicitudin. Non blandit massa enim nec dui nunc mattis enim. Mattis vulputate enim nulla aliquet porttitor. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus nullam. Facilisis volutpat est velit egestas dui id. Duis convallis convallis tellus id interdum. Volutpat est velit egestas dui id. Eget aliquet nibh praesent tristique magna sit amet purus. Id porta nibh venenatis cras. Condimentum lacinia quis vel eros donec ac odio. Malesuada bibendum arcu vitae elementum curabitur vitae nunc. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam.',
     user: user1.id,
     image_url: 'https://images.unsplash.com/photo-1720440931331-bdc0e7af2045?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    // ifPublished: false,
+    ifPublished: true,
   })
 
   const message1 = new models.Blogcomment({

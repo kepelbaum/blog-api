@@ -15,7 +15,7 @@ const postSchema = new mongoose.Schema(
     },
     user: { type: mongoose.Schema.Types.ObjectId, ref: 'Blogger' },
     date: { type: Date, default: Date.now },
-    ifPublished: {type: Boolean, default: true},
+    ifPublished: {type: Boolean, required: true},
   },
   { timestamps: true },
 );
