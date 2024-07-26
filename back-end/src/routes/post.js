@@ -116,7 +116,6 @@ verifyToken, async (req, res, next) => {
       
         return res.json({message: "Message updated"});
     } else {
-      console.log(acc.id + ' AYAYA ' + use.user);
       res.sendStatus(401);
     }};
     fullVerify();
