@@ -81,89 +81,93 @@ const Edit = () => {
   }
 
   return (
-    <div className="wrapper">
-      <div className="header">
-        <h3>Blog API</h3>
-        <ul>
-          <Link to={"/"}>
-            <li>Posts</li>
-          </Link>
-          <Link to={"/settings"}>
-            <li>Settings</li>
-          </Link>
-          {!token && (
-            <Link to={"/login"}>
-              <li>Login</li>
-            </Link>
-          )}
-          {token && (
+    user &&
+    posts &&
+    comments && (
+      <div className="wrapper">
+        <div className="header">
+          <h3>Blog API</h3>
+          <ul>
             <Link to={"/"}>
-              <li onClick={logout}>Logout</li>
+              <li>Posts</li>
             </Link>
-          )}
-        </ul>
+            <Link to={"/settings"}>
+              <li>Settings</li>
+            </Link>
+            {!token && (
+              <Link to={"/login"}>
+                <li>Login</li>
+              </Link>
+            )}
+            {token && (
+              <Link to={"/"}>
+                <li onClick={logout}>Logout</li>
+              </Link>
+            )}
+          </ul>
+        </div>
+        <h2>{user.message}</h2>
+        {errors &&
+          errors.map((ele) => {
+            return <h2>{ele.msg}</h2>;
+          })}
+        {posts
+          .filter((ele) => ele._id === id && ele.user.username === user.name)
+          .map((ele) => {
+            return (
+              <div className="form" key={ele.id}>
+                <label htmlFor="title">Title:</label>
+                <input
+                  type="text"
+                  defaultValue={ele.title}
+                  id="title"
+                  onChange={handleTitle}
+                ></input>
+                <label htmlFor="imageurl">Image URL (optional):</label>
+                <input
+                  type="text"
+                  defaultValue={ele.image_url}
+                  id="imageurl"
+                  onChange={handleURL}
+                ></input>
+                <label htmlFor="check">Make private (y/n):</label>
+                {(ele.ifPublished || (!ele.ifPublished && ifPubChanged)) && (
+                  <input
+                    type="checkbox"
+                    id="check"
+                    onChange={handleCheck}
+                  ></input>
+                )}
+                {!ele.ifPublished && !ifPubChanged && (
+                  <input
+                    type="checkbox"
+                    id="check"
+                    onChange={handleCheck}
+                    checked
+                  ></input>
+                )}
+                <label htmlFor="text">Message Body:</label>
+                <textarea
+                  id="text"
+                  defaultValue={ele.text}
+                  onChange={handleChange}
+                ></textarea>
+                <button
+                  type="submit"
+                  className="submit"
+                  onClick={handleSubmit}
+                  initText={ele.text}
+                  initTitle={ele.title}
+                  initUrl={ele.image_url}
+                  initPub={ele.ifPublished.toString()}
+                >
+                  Submit
+                </button>
+              </div>
+            );
+          })}
       </div>
-      <h2>{user.message}</h2>
-      {errors &&
-        errors.map((ele) => {
-          return <h2>{ele.msg}</h2>;
-        })}
-      {posts
-        .filter((ele) => ele._id === id)
-        .map((ele) => {
-          return (
-            <div className="form" key={ele.id}>
-              <label htmlFor="title">Title:</label>
-              <input
-                type="text"
-                defaultValue={ele.title}
-                id="title"
-                onChange={handleTitle}
-              ></input>
-              <label htmlFor="imageurl">Image URL (optional):</label>
-              <input
-                type="text"
-                defaultValue={ele.image_url}
-                id="imageurl"
-                onChange={handleURL}
-              ></input>
-              <label htmlFor="check">Make private (y/n):</label>
-              {(ele.ifPublished || (!ele.ifPublished && ifPubChanged)) && (
-                <input
-                  type="checkbox"
-                  id="check"
-                  onChange={handleCheck}
-                ></input>
-              )}
-              {!ele.ifPublished && !ifPubChanged && (
-                <input
-                  type="checkbox"
-                  id="check"
-                  onChange={handleCheck}
-                  checked
-                ></input>
-              )}
-              <label htmlFor="text">Message Body:</label>
-              <textarea
-                id="text"
-                defaultValue={ele.text}
-                onChange={handleChange}
-              ></textarea>
-              <button
-                type="submit"
-                className="submit"
-                onClick={handleSubmit}
-                initText={ele.text}
-                initTitle={ele.title}
-                initUrl={ele.image_url}
-                initPub={ele.ifPublished.toString()}
-              >
-                Submit
-              </button>
-            </div>
-          );
-        })}
-    </div>
+    )
   );
 };
 

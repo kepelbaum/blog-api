@@ -88,7 +88,7 @@ const Posts = () => {
         <h2>{user.message && user.message}</h2>
         <div className="one">
           {posts
-            .filter((ele) => ele._id === id)
+            .filter((ele) => ele._id === id && ele.user.username === user.name)
             .map((ele) => {
               return (
                 <div className="huge" key={ele._id}>
@@ -126,7 +126,7 @@ const Posts = () => {
             })}
           <h2>Comments:</h2>
           {comments
-            .filter((ele) => ele.post === id)
+            .filter((ele) => ele.post === id && ele.user.username === user.name)
             .sort(function (a, b) {
               return new Date(b.date) - new Date(a.date);
             })

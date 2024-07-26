@@ -46,7 +46,7 @@ const Comment = () => {
   }
 
   return (
-    (user.id && (
+    (user && user.id && (
       <div className="wrapper">
         <div className="header">
           <h3>Blog API</h3>
