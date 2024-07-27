@@ -35,7 +35,7 @@ const Blogger = ({ delay }) => {
         <h2>{user}</h2>
         <div className="grid">
           {posts
-            .filter((ele) => ele.user.username === id)
+            .filter((ele) => ele.user.username === id && ele.ifPublished)
             .map((ele) => {
               return (
                 <Link to={"/posts/" + ele._id}>
