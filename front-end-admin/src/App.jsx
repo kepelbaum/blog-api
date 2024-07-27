@@ -2,12 +2,9 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState, createContext } from "react";
 import "./App.css";
 import Posts from "./Posts.jsx";
-import Bloggers from "./Bloggers.jsx";
-import Blogger from "./Blogger.jsx";
 import Post from "./Post.jsx";
 import Login from "./Login.jsx";
 import Signup from "./Signup.jsx";
-import Comment from "./Comment.jsx";
 import Settings from "./Settings.jsx";
 import Edit from "./Edit.jsx";
 import New from "./New.jsx";
@@ -103,12 +100,9 @@ function App({ delay }) {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Posts />} />
-          <Route path="users" element={<Bloggers />} />
-          <Route path="users/:id" element={<Blogger />} />
           <Route path="posts/:id" element={<Post />} />
           <Route path="login" element={<Login />} />
           <Route path="sign-up" element={<Signup />} />
-          <Route path="posts/:id/create" element={<Comment />} />
           <Route path="settings" element={<Settings />} />
           <Route path="posts/:id/edit" element={<Edit />} />
           <Route path="create" element={<New />} />
@@ -119,15 +113,3 @@ function App({ delay }) {
 }
 
 export default App;
-
-{
-  /* <ul>
-          {data.map((ele) => {
-            return (
-              <div>
-                <li>{ele.text}</li>
-              </div>
-            );
-          })}
-        </ul> */
-}

@@ -7,7 +7,7 @@ const Posts = ({ delay }) => {
     useContext(AppContext);
 
   return (
-    (posts && users && comments && user.id && (
+    (posts && users && comments && user && user.id && (
       <div className="wrapper">
         <div className="header">
           <h3>Blog API</h3>

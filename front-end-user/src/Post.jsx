@@ -49,7 +49,9 @@ const Posts = ({ delay }) => {
                       <h5 className="blue">{ele.user.username}</h5>
                     </Link>
                     <h3>{ele.title}</h3>
-                    <img src={ele.image_url} width="500" height="500"></img>
+                    {ele.image_url && (
+                      <img src={ele.image_url} width="500" height="500"></img>
+                    )}
                     <p>{ele.text}</p>
                   </div>
                 );

@@ -72,7 +72,7 @@ const Edit = () => {
       .then((response) => response.json())
       .then((response) => {
         if (response.message) {
-          movePage("/");
+          movePage("/posts/" + id);
         } else {
           setErrors(response);
         }

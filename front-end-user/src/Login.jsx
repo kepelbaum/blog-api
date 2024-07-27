@@ -10,6 +10,31 @@ const Login = ({ delay }) => {
   const [pass, setPass] = useState("");
   const [errors, setErrors] = useState(null);
 
+  function logAsAdmin() {
+    fetch("https://blog-api-production-1313.up.railway.app/login", {
+      mode: "cors",
+      method: "POST",
+      body: JSON.stringify({
+        username: "admin",
+        password: "admin",
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.result) {
+          setErrors(response.result);
+        } else {
+          setToken(response.token);
+          localStorage.setItem("token", response.token);
+          movePage("/");
+        }
+      })
+      .catch((error) => console.error(error));
+  }
+
   function handleUser(e) {
     setName(e.target.value);
   }
@@ -91,6 +116,16 @@ const Login = ({ delay }) => {
               Don't have an account? Sign up{" "}
               <span className="visiblelink">
                 <Link to={"/sign-up"}>here.</Link>
+              </span>
+            </span>
+          </div>
+          <div className="margin">
+            <span>
+              Or try an{" "}
+              <span className="visiblelink">
+                <span className="link" onClick={logAsAdmin}>
+                  existing account.
+                </span>
               </span>
             </span>
           </div>
